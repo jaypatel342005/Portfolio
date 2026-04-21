@@ -3,12 +3,11 @@ import {
   SiPython, SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiNodedotjs,
   SiExpress, SiMongodb, SiPytorch, SiScikitlearn, SiPandas, SiNumpy,
   SiFlask, SiFastapi, SiGit, SiDocker, SiPostman, SiVercel,
-  SiDotnet, SiMicrosoftsqlserver, SiJupyter, SiGooglecolab,
+  SiDotnet, SiJupyter, SiGooglecolab,
   SiNestjs, SiTailwindcss, SiDart, SiFlutter
 } from 'react-icons/si';
-import { FaJava, FaHtml5, FaCss3Alt } from 'react-icons/fa';
+import { FaJava, FaHtml5, FaCss3Alt, FaDatabase, FaCode } from 'react-icons/fa';
 import { TbBrandCSharp } from 'react-icons/tb';
-import { DiC } from 'react-icons/di';
 import './Skills.css';
 
 const skillCategories = [
@@ -34,9 +33,9 @@ const skillCategories = [
       { name: 'Python', icon: <SiPython size={24} /> },
       { name: 'JavaScript', icon: <SiJavascript size={24} /> },
       { name: 'Java', icon: <FaJava size={24} /> },
-      { name: 'C', icon: <DiC size={24} /> },
+      { name: 'C', icon: <FaCode size={24} /> },
       { name: 'C#', icon: <TbBrandCSharp size={24} /> },
-      { name: 'SQL', icon: <SiMicrosoftsqlserver size={24} /> },
+      { name: 'SQL', icon: <FaDatabase size={24} /> },
       { name: 'Dart', icon: <SiDart size={24} /> },
       { name: 'HTML/CSS', icon: <FaHtml5 size={24} /> },
     ],
@@ -64,7 +63,7 @@ const skillCategories = [
     skills: [
       { name: 'Git', icon: <SiGit size={24} /> },
       { name: 'MongoDB', icon: <SiMongodb size={24} /> },
-      { name: 'MS SQL Server', icon: <SiMicrosoftsqlserver size={24} /> },
+      { name: 'MS SQL Server', icon: <FaDatabase size={24} /> },
       { name: 'Docker', icon: <SiDocker size={24} /> },
       { name: 'Postman', icon: <SiPostman size={24} /> },
       { name: 'Vercel', icon: <SiVercel size={24} /> },
