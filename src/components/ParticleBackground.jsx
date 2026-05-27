@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 const ParticleBackground = () => {
   const canvasRef = useRef(null);
+  const mouseRef = useRef({ x: -9999, y: -9999 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -17,32 +18,53 @@ const ParticleBackground = () => {
 
     const createParticles = () => {
       particles = [];
-      const count = Math.floor((canvas.width * canvas.height) / 15000);
+      const count = Math.floor((canvas.width * canvas.height) / 12000);
       for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 2 + 0.5,
-          speedX: (Math.random() - 0.5) * 0.3,
-          speedY: (Math.random() - 0.5) * 0.3,
-          opacity: Math.random() * 0.5 + 0.1,
+          size: Math.random() * 2.5 + 0.5,
+          baseSpeedX: (Math.random() - 0.5) * 0.4,
+          baseSpeedY: (Math.random() - 0.5) * 0.4,
+          speedX: 0,
+          speedY: 0,
+          opacity: Math.random() * 0.6 + 0.1,
+          color: Math.random() > 0.5 ? '192, 132, 252' : '6, 182, 212',
         });
       }
     };
 
     const createOrbs = () => {
       orbs = [
-        { x: canvas.width * 0.2, y: canvas.height * 0.3, radius: 300, color: 'rgba(124, 58, 237, 0.03)', speedX: 0.2, speedY: 0.1 },
-        { x: canvas.width * 0.8, y: canvas.height * 0.6, radius: 250, color: 'rgba(6, 182, 212, 0.03)', speedX: -0.15, speedY: 0.12 },
-        { x: canvas.width * 0.5, y: canvas.height * 0.8, radius: 350, color: 'rgba(168, 85, 247, 0.02)', speedX: 0.1, speedY: -0.08 },
+        { x: canvas.width * 0.2, y: canvas.height * 0.3, radius: 350, color: 'rgba(124, 58, 237, 0.04)', speedX: 0.2, speedY: 0.1 },
+        { x: canvas.width * 0.8, y: canvas.height * 0.6, radius: 280, color: 'rgba(6, 182, 212, 0.04)', speedX: -0.15, speedY: 0.12 },
+        { x: canvas.width * 0.5, y: canvas.height * 0.8, radius: 400, color: 'rgba(168, 85, 247, 0.03)', speedX: 0.1, speedY: -0.08 },
+        { x: canvas.width * 0.1, y: canvas.height * 0.9, radius: 250, color: 'rgba(16, 185, 129, 0.02)', speedX: 0.12, speedY: -0.06 },
       ];
     };
 
     const drawParticles = () => {
+      const mx = mouseRef.current.x;
+      const my = mouseRef.current.y;
+      const repelRadius = 120;
+
       particles.forEach((p) => {
+        // Mouse repel
+        const dx = p.x - mx;
+        const dy = p.y - my;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < repelRadius) {
+          const force = (repelRadius - dist) / repelRadius;
+          p.speedX = p.baseSpeedX + (dx / dist) * force * 2;
+          p.speedY = p.baseSpeedY + (dy / dist) * force * 2;
+        } else {
+          p.speedX += (p.baseSpeedX - p.speedX) * 0.05;
+          p.speedY += (p.baseSpeedY - p.speedY) * 0.05;
+        }
+
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(192, 132, 252, ${p.opacity})`;
+        ctx.fillStyle = `rgba(${p.color}, ${p.opacity})`;
         ctx.fill();
 
         p.x += p.speedX;
@@ -60,11 +82,11 @@ const ParticleBackground = () => {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
+          if (dist < 130) {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(124, 58, 237, ${0.08 * (1 - dist / 120)})`;
+            ctx.strokeStyle = `rgba(124, 58, 237, ${0.1 * (1 - dist / 130)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -97,20 +119,28 @@ const ParticleBackground = () => {
       animationId = requestAnimationFrame(animate);
     };
 
+    const handleMouseMove = (e) => {
+      mouseRef.current = { x: e.clientX, y: e.clientY };
+    };
+
+    const handleResize = () => {
+      resize();
+      createParticles();
+      createOrbs();
+    };
+
     resize();
     createParticles();
     createOrbs();
     animate();
 
-    window.addEventListener('resize', () => {
-      resize();
-      createParticles();
-      createOrbs();
-    });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('resize', handleResize);
 
     return () => {
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 

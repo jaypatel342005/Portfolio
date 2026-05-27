@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { FiGithub, FiLinkedin, FiArrowDown, FiDownload } from 'react-icons/fi';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { FiGithub, FiLinkedin, FiArrowDown, FiDownload, FiMail } from 'react-icons/fi';
 import './Hero.css';
 
 const roles = [
   'AI/ML Engineer',
   'Full-Stack Developer',
-  'Computer Vision Enthusiast',
+  'Computer Vision Expert',
   'MERN Stack Developer',
   'Deep Learning Engineer',
 ];
@@ -17,12 +17,29 @@ const Hero = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const timeoutRef = useRef(null);
 
+  // Mouse parallax for avatar
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 80, damping: 25 });
+  const springY = useSpring(mouseY, { stiffness: 80, damping: 25 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      mouseX.set((e.clientX - centerX) / centerX * 15);
+      mouseY.set((e.clientY - centerY) / centerY * 10);
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [mouseX, mouseY]);
+
   useEffect(() => {
     const currentRole = roles[roleIndex];
     const speed = isDeleting ? 40 : 80;
 
     if (!isDeleting && text === currentRole) {
-      timeoutRef.current = setTimeout(() => setIsDeleting(true), 2000);
+      timeoutRef.current = setTimeout(() => setIsDeleting(true), 2200);
       return;
     }
 
@@ -87,8 +104,8 @@ const Hero = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 1.0 }}
           >
-            Passionate about building intelligent systems using Python and modern ML frameworks.
-            Turning raw data into AI-driven solutions that make a real impact.
+            Aspiring <span className="hero__bio-highlight">AI/ML Engineer</span> with hands-on experience in scalable ML, Deep Learning & Computer Vision systems.
+            Proficient in <span className="hero__bio-highlight">Python & PyTorch</span> with full-stack integration skills.
           </motion.p>
 
           <motion.div
@@ -97,11 +114,14 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.2 }}
           >
-            <a href="#projects" className="btn btn-primary">
+            <a href="#projects" className="btn btn-primary hero__btn-primary">
               View Projects <FiArrowDown />
             </a>
             <a href="/JAY PATEL Resume.pdf" target="_blank" className="btn btn-outline">
               <FiDownload /> Resume
+            </a>
+            <a href="mailto:jaypatel97378@gmail.com" className="btn btn-glass">
+              <FiMail /> Hire Me
             </a>
           </motion.div>
 
@@ -113,10 +133,35 @@ const Hero = () => {
           >
             <a href="https://github.com/jaypatel342005" target="_blank" rel="noopener noreferrer" className="hero__social-link" aria-label="GitHub">
               <FiGithub size={20} />
+              <span>GitHub</span>
             </a>
-            <a href="https://linkedin.com/in/jaypatel345" target="_blank" rel="noopener noreferrer" className="hero__social-link" aria-label="LinkedIn">
+            <a href="https://linkedin.com/in/jaypatel345" target="_blank" rel="noopener noreferrer" className="hero__social-link hero__social-link--linkedin" aria-label="LinkedIn">
               <FiLinkedin size={20} />
+              <span>LinkedIn</span>
             </a>
+          </motion.div>
+
+          {/* Quick stats */}
+          <motion.div
+            className="hero__quick-stats"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.6 }}
+          >
+            <div className="hero__quick-stat">
+              <span className="hero__quick-stat-value">5+</span>
+              <span className="hero__quick-stat-label">Technologies</span>
+            </div>
+            <div className="hero__quick-stat-divider" />
+            <div className="hero__quick-stat">
+              <span className="hero__quick-stat-value">6+</span>
+              <span className="hero__quick-stat-label">Projects</span>
+            </div>
+            <div className="hero__quick-stat-divider" />
+            <div className="hero__quick-stat">
+              <span className="hero__quick-stat-value">8.8</span>
+              <span className="hero__quick-stat-label">GPA / 10</span>
+            </div>
           </motion.div>
         </motion.div>
 
@@ -125,21 +170,26 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.6 }}
+          style={{ x: springX, y: springY }}
         >
           <div className="hero__avatar-wrapper">
             <div className="hero__avatar-glow" />
+            <div className="hero__avatar-ring hero__avatar-ring--outer" />
+            <div className="hero__avatar-ring hero__avatar-ring--inner" />
             <img
               src="https://avatars.githubusercontent.com/u/146502846?v=4"
               alt="Jay Patel"
               className="hero__avatar"
             />
-            <div className="hero__avatar-ring" />
+            <div className="hero__avatar-badge">
+              <span>🚀</span>
+            </div>
           </div>
 
           <div className="hero__floating-cards">
             <motion.div
               className="hero__float-card hero__float-card--1"
-              animate={{ y: [-10, 10, -10] }}
+              animate={{ y: [-12, 12, -12] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             >
               <span>🧠</span> Deep Learning
@@ -158,16 +208,24 @@ const Hero = () => {
             >
               <span>🐍</span> Python
             </motion.div>
+            <motion.div
+              className="hero__float-card hero__float-card--4"
+              animate={{ y: [8, -8, 8] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <span>🔥</span> PyTorch
+            </motion.div>
           </div>
         </motion.div>
       </div>
 
       <motion.div
         className="hero__scroll-indicator"
-        animate={{ y: [0, 10, 0] }}
+        animate={{ y: [0, 12, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <FiArrowDown size={20} />
+        <span>Scroll</span>
+        <FiArrowDown size={18} />
       </motion.div>
     </section>
   );

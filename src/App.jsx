@@ -1,3 +1,4 @@
+import ScrollProgress from './components/ScrollProgress';
 import ParticleBackground from './components/ParticleBackground';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -11,6 +12,7 @@ import Footer from './components/Footer';
 function App() {
   return (
     <>
+      <ScrollProgress />
       <ParticleBackground />
       <Navbar />
       <main style={{ position: 'relative', zIndex: 1 }}>

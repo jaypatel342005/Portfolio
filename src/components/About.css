@@ -52,6 +52,7 @@
 
 .about__meta-item a {
   color: var(--accent-tertiary);
+  word-break: break-all;
 }
 
 .about__right {
@@ -129,16 +130,64 @@
   font-weight: 500;
 }
 
-@media (max-width: 768px) {
+/* ═══════════════════════════════════════
+   RESPONSIVE — Tablet (≤ 900px)
+══════════════════════════════════════════ */
+@media (max-width: 900px) {
   .about__grid {
     grid-template-columns: 1fr;
+    gap: 28px;
   }
 
   .about__info {
     padding: 28px;
   }
 
+  .about__info-title {
+    font-size: 20px;
+  }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — Mobile (≤ 600px)
+══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .about__info {
+    padding: 20px 16px;
+  }
+
+  .about__info-text {
+    font-size: 14px;
+  }
+
+  .about__highlight {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .about__highlight-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .about__highlight-title {
+    font-size: 14px;
+  }
+
   .about__stats {
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .about__stat {
+    padding: 16px 10px;
+  }
+
+  .about__stat-value {
+    font-size: 26px;
+  }
+
+  .about__stat-label {
+    font-size: 11px;
   }
 }
