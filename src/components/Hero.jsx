@@ -120,7 +120,14 @@ const Hero = () => {
             <a href="/jay-patel-resume.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-outline">
               <FiDownload /> Resume
             </a>
-            <a href="mailto:jaypatel97378@gmail.com" className="btn btn-glass">
+            <a
+              href="#contact"
+              className="btn btn-glass"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               <FiMail /> Hire Me
             </a>
           </motion.div>
