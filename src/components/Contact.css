@@ -61,6 +61,8 @@
   text-decoration: none;
   cursor: pointer;
   min-width: 0;
+  /* Good touch target */
+  min-height: 64px;
 }
 
 .contact__link-card:hover {
@@ -106,11 +108,15 @@
 @media (max-width: 900px) {
   .contact__grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 24px;
   }
 
   .contact__info {
     padding: 24px;
+  }
+
+  .contact__links-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -128,6 +134,11 @@
 
   .contact__info-text {
     font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .contact__location {
+    font-size: 13px;
   }
 
   .contact__cta {
@@ -138,24 +149,50 @@
   .contact__cta .btn {
     width: 100%;
     justify-content: center;
+    min-height: 48px;
   }
 
-  /* On mobile: 1 column for link cards */
+  /* 2 columns still fine on most phones */
   .contact__links-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
 
   .contact__link-card {
-    padding: 14px;
+    padding: 12px 10px;
+    gap: 10px;
+    min-height: 60px;
   }
 
   .contact__link-icon {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .contact__link-label {
+    font-size: 10px;
   }
 
   .contact__link-value {
-    font-size: 13px;
+    font-size: 12px;
+  }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — Extra Small (≤ 380px)
+══════════════════════════════════════════ */
+@media (max-width: 380px) {
+  /* Drop to 1 column on very narrow phones */
+  .contact__links-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .contact__link-card {
+    padding: 12px 14px;
+  }
+
+  .contact__info {
+    padding: 16px 12px;
   }
 }

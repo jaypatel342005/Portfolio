@@ -105,9 +105,14 @@
   border-radius: var(--radius-sm);
   color: var(--text-primary);
   cursor: pointer;
-  padding: 6px 8px;
+  padding: 8px 10px;
   line-height: 0;
   transition: all var(--transition-fast);
+  /* Good touch target */
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
 }
 
 .navbar__mobile-toggle:hover {
@@ -134,11 +139,15 @@
   font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 500;
+  /* 48px height = excellent touch target */
   padding: 14px 0;
+  min-height: 48px;
   cursor: pointer;
   text-align: left;
   width: 100%;
   transition: color var(--transition-fast);
+  display: flex;
+  align-items: center;
 }
 
 .navbar__mobile-link:last-of-type {
@@ -181,5 +190,9 @@
 @media (max-width: 380px) {
   .navbar__container {
     padding: 0 12px;
+  }
+
+  .navbar__logo {
+    font-size: 16px;
   }
 }

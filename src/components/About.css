@@ -1,3 +1,4 @@
+/* ─── Hero grid → single column on mobile ─── */
 .about__grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -136,7 +137,7 @@
 @media (max-width: 900px) {
   .about__grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 24px;
   }
 
   .about__info {
@@ -144,7 +145,7 @@
   }
 
   .about__info-title {
-    font-size: 20px;
+    font-size: 21px;
   }
 }
 
@@ -156,22 +157,36 @@
     padding: 20px 16px;
   }
 
+  .about__info-title {
+    font-size: 19px;
+  }
+
   .about__info-text {
     font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .about__meta-item {
+    font-size: 13px;
   }
 
   .about__highlight {
-    padding: 16px;
+    padding: 14px 16px;
     gap: 12px;
   }
 
   .about__highlight-icon {
     width: 40px;
     height: 40px;
+    font-size: 18px;
   }
 
   .about__highlight-title {
     font-size: 14px;
+  }
+
+  .about__highlight-desc {
+    font-size: 12px;
   }
 
   .about__stats {
@@ -189,5 +204,23 @@
 
   .about__stat-label {
     font-size: 11px;
+  }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — Extra Small (≤ 380px)
+══════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .about__info {
+    padding: 16px 12px;
+  }
+
+  .about__stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .about__stat-value {
+    font-size: 22px;
   }
 }

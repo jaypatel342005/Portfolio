@@ -265,6 +265,7 @@
   height: 320px;
   border: 1.5px dashed rgba(124, 58, 237, 0.25);
   animation: spin 20s linear infinite;
+  will-change: transform;
 }
 
 .hero__avatar-ring--inner {
@@ -273,6 +274,7 @@
   height: 300px;
   border: 1px solid rgba(6, 182, 212, 0.15);
   animation: spin 14s linear infinite reverse;
+  will-change: transform;
 }
 
 @keyframes spin {
@@ -295,6 +297,7 @@
   font-size: 20px;
   box-shadow: 0 4px 20px rgba(124, 58, 237, 0.5);
   animation: float 3s ease-in-out infinite;
+  will-change: transform;
 }
 
 /* ─── Floating Cards ─── */
@@ -322,6 +325,7 @@
   white-space: nowrap;
   box-shadow: var(--shadow-sm);
   z-index: 3;
+  will-change: transform;
 }
 
 .hero__float-card span {
@@ -519,6 +523,12 @@
   /* Hide floating cards on small mobile */
   .hero__floating-cards {
     display: none;
+  }
+
+  /* Disable ring spins on mobile — saves GPU */
+  .hero__avatar-ring--outer,
+  .hero__avatar-ring--inner {
+    animation: none;
   }
 
   .hero__scroll-indicator {

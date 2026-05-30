@@ -6,10 +6,10 @@ const ParticleBackground = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: false }); // opaque = faster compositing
     let animationId;
     let particles = [];
-    let orbs = [];
+    let frameCount = 0;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -18,129 +18,136 @@ const ParticleBackground = () => {
 
     const createParticles = () => {
       particles = [];
-      const count = Math.floor((canvas.width * canvas.height) / 12000);
+      // Fewer particles — cap at 60 regardless of screen size
+      const count = Math.min(60, Math.floor((canvas.width * canvas.height) / 20000));
       for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 2.5 + 0.5,
-          baseSpeedX: (Math.random() - 0.5) * 0.4,
-          baseSpeedY: (Math.random() - 0.5) * 0.4,
-          speedX: 0,
-          speedY: 0,
-          opacity: Math.random() * 0.6 + 0.1,
-          color: Math.random() > 0.5 ? '192, 132, 252' : '6, 182, 212',
+          size: Math.random() * 1.8 + 0.4,
+          speedX: (Math.random() - 0.5) * 0.35,
+          speedY: (Math.random() - 0.5) * 0.35,
+          opacity: Math.random() * 0.5 + 0.1,
+          // Pre-compute color string once
+          colorStr: Math.random() > 0.5
+            ? `rgba(192,132,252,${(Math.random() * 0.5 + 0.1).toFixed(2)})`
+            : `rgba(6,182,212,${(Math.random() * 0.5 + 0.1).toFixed(2)})`,
         });
       }
     };
 
-    const createOrbs = () => {
-      orbs = [
-        { x: canvas.width * 0.2, y: canvas.height * 0.3, radius: 350, color: 'rgba(124, 58, 237, 0.04)', speedX: 0.2, speedY: 0.1 },
-        { x: canvas.width * 0.8, y: canvas.height * 0.6, radius: 280, color: 'rgba(6, 182, 212, 0.04)', speedX: -0.15, speedY: 0.12 },
-        { x: canvas.width * 0.5, y: canvas.height * 0.8, radius: 400, color: 'rgba(168, 85, 247, 0.03)', speedX: 0.1, speedY: -0.08 },
-        { x: canvas.width * 0.1, y: canvas.height * 0.9, radius: 250, color: 'rgba(16, 185, 129, 0.02)', speedX: 0.12, speedY: -0.06 },
-      ];
-    };
+    // Static orb positions — drawn as CSS-styled divs instead of canvas radial gradients
+    // We skip orbs on canvas entirely (handled by CSS background in index.css)
 
-    const drawParticles = () => {
+    const animate = () => {
+      animationId = requestAnimationFrame(animate);
+      frameCount++;
+
+      // Fill background (faster than clearRect on opaque canvas)
+      ctx.fillStyle = '#0a0a0f';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
-      const repelRadius = 120;
+      const repelRadius = 100;
+      const repelRadius2 = repelRadius * repelRadius;
+      const connectionDist = 120;
+      const connectionDist2 = connectionDist * connectionDist;
 
-      particles.forEach((p) => {
-        // Mouse repel
+      // Update + draw particles
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        // Mouse repel — use dist² to skip sqrt
         const dx = p.x - mx;
         const dy = p.y - my;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < repelRadius) {
-          const force = (repelRadius - dist) / repelRadius;
-          p.speedX = p.baseSpeedX + (dx / dist) * force * 2;
-          p.speedY = p.baseSpeedY + (dy / dist) * force * 2;
-        } else {
-          p.speedX += (p.baseSpeedX - p.speedX) * 0.05;
-          p.speedY += (p.baseSpeedY - p.speedY) * 0.05;
-        }
+        const dist2 = dx * dx + dy * dy;
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.color}, ${p.opacity})`;
-        ctx.fill();
+        if (dist2 < repelRadius2 && dist2 > 0) {
+          const dist = Math.sqrt(dist2);
+          const force = (repelRadius - dist) / repelRadius;
+          p.x += (dx / dist) * force * 1.5;
+          p.y += (dy / dist) * force * 1.5;
+        }
 
         p.x += p.speedX;
         p.y += p.speedY;
 
         if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
+        else if (p.x > canvas.width) p.x = 0;
         if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-      });
+        else if (p.y > canvas.height) p.y = 0;
 
-      // Draw connections
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 130) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(124, 58, 237, ${0.1 * (1 - dist / 130)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.colorStr;
+        ctx.fill();
+      }
+
+      // Draw connections — only every other frame to halve cost
+      if (frameCount % 2 === 0) {
+        ctx.lineWidth = 0.4;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist2 = dx * dx + dy * dy;
+            if (dist2 < connectionDist2) {
+              const alpha = (0.08 * (1 - Math.sqrt(dist2) / connectionDist)).toFixed(3);
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(124,58,237,${alpha})`;
+              ctx.stroke();
+            }
           }
         }
       }
     };
 
-    const drawOrbs = () => {
-      orbs.forEach((orb) => {
-        const gradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.radius);
-        gradient.addColorStop(0, orb.color);
-        gradient.addColorStop(1, 'transparent');
-        ctx.beginPath();
-        ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
-
-        orb.x += orb.speedX;
-        orb.y += orb.speedY;
-
-        if (orb.x < -orb.radius || orb.x > canvas.width + orb.radius) orb.speedX *= -1;
-        if (orb.y < -orb.radius || orb.y > canvas.height + orb.radius) orb.speedY *= -1;
-      });
-    };
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawOrbs();
-      drawParticles();
-      animationId = requestAnimationFrame(animate);
-    };
-
+    // Throttle mouse to ~60fps using rAF flag
+    let ticking = false;
     const handleMouseMove = (e) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+      if (!ticking) {
+        mouseRef.current = { x: e.clientX, y: e.clientY };
+        ticking = true;
+        requestAnimationFrame(() => { ticking = false; });
+      }
     };
 
+    // Debounce resize
+    let resizeTimer;
     const handleResize = () => {
-      resize();
-      createParticles();
-      createOrbs();
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        resize();
+        createParticles();
+      }, 150);
     };
 
     resize();
     createParticles();
-    createOrbs();
     animate();
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    // Pause animation when tab is hidden
+    const handleVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationId);
+      } else {
+        animate();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
 
     return () => {
       cancelAnimationFrame(animationId);
+      clearTimeout(resizeTimer);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibility);
     };
   }, []);
 

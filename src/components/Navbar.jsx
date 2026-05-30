@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMenu, FiX } from 'react-icons/fi';
 import './Navbar.css';
@@ -15,31 +15,44 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const rafRef = useRef(null);
+  const lastScrollY = useRef(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+  const handleScroll = useCallback(() => {
+    // Throttle via rAF — only runs once per animation frame
+    if (rafRef.current) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      const y = window.scrollY;
+      setScrolled(y > 50);
 
-      // Detect active section
-      const sections = navLinks.map((l) => document.getElementById(l.id));
+      // Only re-check active section if scroll position changed meaningfully
+      if (Math.abs(y - lastScrollY.current) < 5) return;
+      lastScrollY.current = y;
+
       let current = '';
-      sections.forEach((section) => {
-        if (section) {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= 150) current = section.id;
+      for (const link of navLinks) {
+        const el = document.getElementById(link.id);
+        if (el && el.getBoundingClientRect().top <= 150) {
+          current = link.id;
         }
-      });
+      }
       setActiveSection(current);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    });
   }, []);
 
-  const scrollTo = (id) => {
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [handleScroll]);
+
+  const scrollTo = useCallback((id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setMobileOpen(false);
-  };
+  }, []);
 
   return (
     <motion.nav
@@ -79,6 +92,7 @@ const Navbar = () => {
           <motion.a
             href="/jay-patel-resume.pdf"
             target="_blank"
+            rel="noopener noreferrer"
             className="btn btn-primary navbar__resume-btn"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -120,6 +134,7 @@ const Navbar = () => {
             <motion.a
               href="/jay-patel-resume.pdf"
               target="_blank"
+              rel="noopener noreferrer"
               className="btn btn-primary"
               style={{ marginTop: '12px', width: '100%', justifyContent: 'center' }}
               initial={{ opacity: 0 }}

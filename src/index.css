@@ -89,6 +89,8 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Remove tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
 }
 
 #root {
@@ -260,6 +262,8 @@ a:hover {
   outline: none;
   text-decoration: none;
   white-space: nowrap;
+  /* Minimum 44px touch target */
+  min-height: 44px;
 }
 
 .btn-primary {

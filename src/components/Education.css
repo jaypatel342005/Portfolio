@@ -110,7 +110,7 @@
 ══════════════════════════════════════════ */
 @media (max-width: 768px) {
   .education__item {
-    padding: 24px;
+    padding: 24px 20px;
     flex-direction: column;
     gap: 16px;
   }
@@ -125,7 +125,11 @@
   }
 
   .education__item-institution {
-    font-size: 17px;
+    font-size: 18px;
+  }
+
+  .education__item-degree {
+    font-size: 14px;
   }
 }
 
@@ -133,14 +137,19 @@
    RESPONSIVE — Mobile (≤ 600px)
 ══════════════════════════════════════════ */
 @media (max-width: 600px) {
+  .education__timeline {
+    gap: 16px;
+  }
+
   .education__item {
-    padding: 18px 16px;
+    padding: 16px 14px;
     gap: 12px;
   }
 
   .education__item-icon {
     width: 44px;
     height: 44px;
+    font-size: 20px;
   }
 
   .education__item-institution {
@@ -151,7 +160,37 @@
     font-size: 13px;
   }
 
+  .education__item-period {
+    font-size: 11px;
+  }
+
+  .education__item-grade {
+    font-size: 12px;
+  }
+
   .education__item-details li {
     font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .education__item-details {
+    gap: 6px;
+  }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — Extra Small (≤ 380px)
+══════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .education__item {
+    padding: 14px 12px;
+  }
+
+  .education__item-institution {
+    font-size: 15px;
+  }
+
+  .education__item-details li {
+    font-size: 12px;
   }
 }

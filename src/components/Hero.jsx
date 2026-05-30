@@ -17,20 +17,26 @@ const Hero = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const timeoutRef = useRef(null);
 
-  // Mouse parallax for avatar
+  // Mouse parallax for avatar — throttled to rAF cadence
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 80, damping: 25 });
-  const springY = useSpring(mouseY, { stiffness: 80, damping: 25 });
+  const springX = useSpring(mouseX, { stiffness: 60, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 60, damping: 20 });
 
   useEffect(() => {
+    let rafPending = false;
     const handleMouseMove = (e) => {
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      mouseX.set((e.clientX - centerX) / centerX * 15);
-      mouseY.set((e.clientY - centerY) / centerY * 10);
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(() => {
+        rafPending = false;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        mouseX.set((e.clientX - centerX) / centerX * 10);
+        mouseY.set((e.clientY - centerY) / centerY * 7);
+      });
     };
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
