@@ -77,7 +77,7 @@ const Navbar = () => {
             </motion.button>
           ))}
           <motion.a
-            href="/JAY PATEL Resume.pdf"
+            href="/jay-patel-resume.pdf"
             target="_blank"
             className="btn btn-primary navbar__resume-btn"
             whileHover={{ scale: 1.05 }}
@@ -118,7 +118,7 @@ const Navbar = () => {
               </motion.button>
             ))}
             <motion.a
-              href="/JAY PATEL Resume.pdf"
+              href="/jay-patel-resume.pdf"
               target="_blank"
               className="btn btn-primary"
               style={{ marginTop: '12px', width: '100%', justifyContent: 'center' }}

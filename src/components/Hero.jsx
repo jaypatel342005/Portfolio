@@ -117,7 +117,7 @@ const Hero = () => {
             <a href="#projects" className="btn btn-primary hero__btn-primary">
               View Projects <FiArrowDown />
             </a>
-            <a href="/JAY PATEL Resume.pdf" target="_blank" className="btn btn-outline">
+            <a href="/jay-patel-resume.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-outline">
               <FiDownload /> Resume
             </a>
             <a href="mailto:jaypatel97378@gmail.com" className="btn btn-glass">

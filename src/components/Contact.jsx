@@ -75,7 +75,7 @@ const Contact = () => {
                 <FiMail size={17} /> Send Email
               </motion.a>
               <motion.a
-                href="/JAY PATEL Resume.pdf"
+                href="/jay-patel-resume.pdf"
                 target="_blank"
                 className="btn btn-outline"
                 whileHover={{ scale: 1.04, y: -2 }}
