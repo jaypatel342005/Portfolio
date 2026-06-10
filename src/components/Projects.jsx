@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink } from 'react-icons/fi';
+import LampEffect from './ui/LampEffect';
+import Meteors from './ui/Meteors';
 import './Projects.css';
 
 const projects = [
@@ -17,7 +19,7 @@ const projects = [
       'Image preprocessing & augmentation (flip, rotation, normalization) via TorchVision',
       'Evaluated with confusion matrix, classification report & F1-score',
     ],
-    color: '#a855f7',
+    color: '#f97316',
   },
   {
     title: 'Cardiovascular Disease Predictor',
@@ -32,7 +34,7 @@ const projects = [
       'Evaluated with confusion matrix, classification report & F1-score',
       'Full-stack Flask + Next.js app for real-time risk prediction',
     ],
-    color: '#06b6d4',
+    color: '#ef4444',
   },
   {
     title: 'Hospital Management System',
@@ -47,7 +49,7 @@ const projects = [
       'Appointment scheduling & billing system',
       'Azure cloud deployment',
     ],
-    color: '#10b981',
+    color: '#f59e0b',
   },
   {
     title: 'Expense Manager',
@@ -62,7 +64,7 @@ const projects = [
       'Expense categorization & analytics',
       'Deployed on Vercel',
     ],
-    color: '#f59e0b',
+    color: '#fb923c',
   },
   {
     title: 'MERN Stack Project',
@@ -77,7 +79,7 @@ const projects = [
       'RESTful API design',
       'Responsive modern UI',
     ],
-    color: '#ef4444',
+    color: '#ea580c',
   },
   {
     title: 'Matrimony Flutter App',
@@ -92,7 +94,7 @@ const projects = [
       'Flutter UI with Dart',
       'Profile matching features',
     ],
-    color: '#8b5cf6',
+    color: '#dc2626',
   },
 ];
 
@@ -116,6 +118,8 @@ const TiltCard = ({ children, className, style, color }) => {
         transformStyle: 'preserve-3d',
         rotateX: hovered ? tilt.y : 0,
         rotateY: hovered ? tilt.x : 0,
+        position: 'relative',
+        overflow: 'hidden',
       }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovered(true)}
@@ -123,10 +127,12 @@ const TiltCard = ({ children, className, style, color }) => {
       animate={{
         rotateX: hovered ? tilt.y : 0,
         rotateY: hovered ? tilt.x : 0,
-        boxShadow: hovered ? `0 20px 60px ${color}30, 0 0 0 1px ${color}40` : '0 4px 20px rgba(0,0,0,0.4)',
+        boxShadow: hovered ? `0 20px 60px ${color}35, 0 0 0 1px ${color}30` : '0 4px 20px rgba(0,0,0,0.4)',
       }}
       transition={{ type: 'spring', stiffness: 200, damping: 20 }}
     >
+      {/* Only render Meteors when hovered for maximum performance */}
+      {hovered && <Meteors number={4} />}
       {children}
     </motion.div>
   );
@@ -148,19 +154,13 @@ const Projects = () => {
   return (
     <section className="section projects" id="projects">
       <div className="container">
-        <motion.div
-          className="section-header"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
+        <LampEffect className="projects__lamp">
           <p className="section-label">University Projects</p>
           <h2 className="section-title">Featured Work</h2>
           <p className="section-subtitle">
             Projects that showcase my skills in AI/ML and full-stack development
           </p>
-        </motion.div>
+        </LampEffect>
 
         <motion.div
           className="projects__grid"

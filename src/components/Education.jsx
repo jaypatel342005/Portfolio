@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiBookOpen, FiAward } from 'react-icons/fi';
+import LampEffect from './ui/LampEffect';
 import './Education.css';
 
 const education = [
@@ -9,7 +11,7 @@ const education = [
     period: '2023 – 2027 (Expected)',
     grade: 'Current CPI: 8.8 / 10',
     icon: <FiBookOpen size={24} />,
-    color: '#a855f7',
+    color: '#f97316',
     details: [
       'Core focus on AI/ML, Data Science, and Software Engineering',
       'Built real-world projects in Deep Learning, Computer Vision & Full-Stack Development',
@@ -22,7 +24,7 @@ const education = [
     period: 'March 2021 – March 2023',
     grade: 'Overall Percentage: 78%',
     icon: <FiAward size={24} />,
-    color: '#06b6d4',
+    color: '#ef4444',
     details: [
       'Strong foundation in Mathematics and Sciences',
       'Central Board of Secondary Education (CBSE) curriculum',
@@ -43,27 +45,21 @@ const Education = () => {
   return (
     <section className="section education" id="education">
       <div className="container">
-        <motion.div
-          className="section-header"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
+        <LampEffect className="education__lamp">
           <p className="section-label">Education</p>
           <h2 className="section-title">Academic Journey</h2>
           <p className="section-subtitle">
             My educational background and academic achievements
           </p>
-        </motion.div>
+        </LampEffect>
 
         <div className="education__timeline">
           {education.map((edu, i) => (
             <motion.div
               key={i}
               className="education__item glass-card"
-              initial={{ opacity: 0, x: i % 2 === 0 ? -60 : 60 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{
                 duration: 0.7,

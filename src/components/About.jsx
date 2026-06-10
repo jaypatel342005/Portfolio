@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { FiMapPin, FiMail, FiGithub, FiCode, FiCpu, FiTarget } from 'react-icons/fi';
+import LampEffect from './ui/LampEffect';
+import ShimmerCard from './ui/ShimmerCard';
 import './About.css';
 
 /* ── Animated counter hook ── */
@@ -79,68 +81,66 @@ const About = () => {
   return (
     <section className="section about" id="about">
       <div className="container">
-        <motion.div
-          className="section-header"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
+        {/* Aceternity Lamp Effect */}
+        <LampEffect className="about__lamp">
           <p className="section-label">About Me</p>
           <h2 className="section-title">Get to Know Me</h2>
           <p className="section-subtitle">
             A passionate developer from Gujarat, India building intelligent solutions
           </p>
-        </motion.div>
+        </LampEffect>
 
         <div className="about__grid">
-          {/* ── Left: Info card ── */}
+          {/* ── Left: Info card wrapped in ShimmerCard ── */}
           <motion.div
-            className="about__info glass-card"
-            initial={{ opacity: 0, x: -60 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <h3 className="about__info-title">Who Am I?</h3>
-            <p className="about__info-text">
-              I'm <strong>Jay Patel</strong>, a B.Tech Computer Science student at <strong>Darshan University, Rajkot</strong> (2023–2027).
-              An aspiring AI/ML Engineer with hands-on experience building scalable machine learning, deep learning, and computer vision systems.
-            </p>
-            <p className="about__info-text">
-              Proficient in <strong>Python and PyTorch</strong> with full-stack integration skills across <strong>MERN, ASP.NET Core, Next.js, Flask, and FastAPI</strong>.
-              I build end-to-end AI solutions — from raw data to real-time prediction applications.
-            </p>
-            <p className="about__info-text">
-              Driven to develop <strong>high-impact AI solutions</strong> that solve real-world problems.
-              I thrive on collaboration, analytical thinking, and turning complex challenges into elegant, scalable software.
-            </p>
+            <ShimmerCard borderColor="#f97316" style={{ height: '100%' }}>
+              <div className="about__info" style={{ border: 'none', background: 'transparent' }}>
+                <h3 className="about__info-title">Who Am I?</h3>
+                <p className="about__info-text">
+                  I'm <strong>Jay Patel</strong>, a B.Tech Computer Science student at <strong>Darshan University, Rajkot</strong> (2023–2027).
+                  An aspiring AI/ML Engineer with hands-on experience building scalable machine learning, deep learning, and computer vision systems.
+                </p>
+                <p className="about__info-text">
+                  Proficient in <strong>Python and PyTorch</strong> with full-stack integration skills across <strong>MERN, ASP.NET Core, Next.js, Flask, and FastAPI</strong>.
+                  I build end-to-end AI solutions — from raw data to real-time prediction applications.
+                </p>
+                <p className="about__info-text">
+                  Driven to develop <strong>high-impact AI solutions</strong> that solve real-world problems.
+                  I thrive on collaboration, analytical thinking, and turning complex challenges into elegant, scalable software.
+                </p>
 
-            <motion.div
-              className="about__meta"
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-            >
-              {[
-                { icon: <FiMapPin size={16} />, content: 'Morbi, Gujarat, India' },
-                { icon: <FiMail size={16} />, content: 'jaypatel97378@gmail.com' },
-                {
-                  icon: <FiGithub size={16} />,
-                  content: (
-                    <a href="https://github.com/jaypatel342005" target="_blank" rel="noopener noreferrer">
-                      jaypatel342005
-                    </a>
-                  ),
-                },
-              ].map((item, i) => (
-                <motion.div key={i} className="about__meta-item" variants={itemVariants}>
-                  {item.icon}
-                  <span>{item.content}</span>
+                <motion.div
+                   className="about__meta"
+                   variants={containerVariants}
+                   initial="hidden"
+                   whileInView="show"
+                   viewport={{ once: true }}
+                >
+                  {[
+                    { icon: <FiMapPin size={16} />, content: 'Morbi, Gujarat, India' },
+                    { icon: <FiMail size={16} />, content: 'jaypatel97378@gmail.com' },
+                    {
+                      icon: <FiGithub size={16} />,
+                      content: (
+                        <a href="https://github.com/jaypatel342005" target="_blank" rel="noopener noreferrer">
+                          jaypatel342005
+                        </a>
+                      ),
+                    },
+                  ].map((item, i) => (
+                    <motion.div key={i} className="about__meta-item" variants={itemVariants}>
+                      {item.icon}
+                      <span>{item.content}</span>
+                    </motion.div>
+                  ))}
                 </motion.div>
-              ))}
-            </motion.div>
+              </div>
+            </ShimmerCard>
           </motion.div>
 
           {/* ── Right: Highlights + Stats ── */}
@@ -157,9 +157,9 @@ const About = () => {
                   key={i}
                   className="about__highlight glass-card"
                   variants={{
-                    hidden: { opacity: 0, x: 40 },
+                    hidden: { opacity: 0, y: 20 },
                     show: {
-                      opacity: 1, x: 0,
+                      opacity: 1, y: 0,
                       transition: { duration: 0.5, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] },
                     },
                   }}

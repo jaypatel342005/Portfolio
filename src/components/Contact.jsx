@@ -1,10 +1,14 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiMail, FiGithub, FiLinkedin, FiInstagram, FiExternalLink, FiPhone, FiMapPin } from 'react-icons/fi';
+import LampEffect from './ui/LampEffect';
+import BackgroundBeams from './ui/BackgroundBeams';
+import MovingBorderBtn from './ui/MovingBorderBtn';
 import './Contact.css';
 
 const contactLinks = [
-  { icon: <FiMail size={22} />, label: 'Email', value: 'jaypatel97378@gmail.com', href: 'https://mail.google.com/mail/?view=cm&to=jaypatel97378@gmail.com', color: '#a855f7' },
-  { icon: <FiPhone size={22} />, label: 'Phone', value: '+91 98796 34566', href: 'tel:+919879634566', color: '#10b981' },
+  { icon: <FiMail size={22} />, label: 'Email', value: 'jaypatel97378@gmail.com', href: 'https://mail.google.com/mail/?view=cm&to=jaypatel97378@gmail.com', color: '#f97316' },
+  { icon: <FiPhone size={22} />, label: 'Phone', value: '+91 98796 34566', href: 'tel:+919879634566', color: '#f59e0b' },
   { icon: <FiGithub size={22} />, label: 'GitHub', value: 'jaypatel342005', href: 'https://github.com/jaypatel342005', color: '#f0f0f5' },
   { icon: <FiLinkedin size={22} />, label: 'LinkedIn', value: 'in/jaypatel345', href: 'https://linkedin.com/in/jaypatel345', color: '#0077b5' },
   { icon: <FiInstagram size={22} />, label: 'Instagram', value: 'll_jay.patel.345_ll', href: 'https://www.instagram.com/ll_jay.patel.345_ll/', color: '#e1306c' },
@@ -22,28 +26,25 @@ const linkCardVariants = {
 
 const Contact = () => {
   return (
-    <section className="section contact" id="contact">
-      <div className="container">
-        <motion.div
-          className="section-header"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
+    <section className="section contact" id="contact" style={{ position: 'relative' }}>
+      {/* Aceternity Background Beams */}
+      <BackgroundBeams />
+
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        <LampEffect className="contact__lamp">
           <p className="section-label">Get In Touch</p>
           <h2 className="section-title">Let's Connect</h2>
           <p className="section-subtitle">
             Open to AI/ML & Full-Stack opportunities. Reach out and let's discuss innovation!
           </p>
-        </motion.div>
+        </LampEffect>
 
         <div className="contact__grid">
           {/* ── Info card ── */}
           <motion.div
             className="contact__info glass-card"
-            initial={{ opacity: 0, x: -60 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
@@ -56,8 +57,8 @@ const Contact = () => {
 
             <motion.div
               className="contact__location"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
@@ -66,16 +67,18 @@ const Contact = () => {
             </motion.div>
 
             <div className="contact__cta">
-              <motion.a
+              {/* Aceternity Moving Border on primary CTA */}
+              <MovingBorderBtn
                 href="https://mail.google.com/mail/?view=cm&to=jaypatel97378@gmail.com&su=Hiring%20Inquiry%20-%20Portfolio"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-primary"
-                whileHover={{ scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.96 }}
+                containerClassName="contact__moving-btn-wrapper"
+                className="contact__moving-btn"
+                duration={2200}
               >
                 <FiMail size={17} /> Send Email
-              </motion.a>
+              </MovingBorderBtn>
+
               <motion.a
                 href="/jay-patel-resume.pdf"
                 target="_blank"

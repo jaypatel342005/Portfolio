@@ -1,9 +1,33 @@
+/* ─── Lamp offset ─── */
+.contact__lamp {
+  margin-bottom: 48px;
+}
+
+/* ─── Moving border CTA button ─── */
+.contact__moving-btn-wrapper {
+  position: relative;
+}
+
+.contact__moving-btn {
+  background: var(--gradient-primary) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: var(--shadow-glow);
+}
+
+.contact__moving-btn:hover {
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow-strong);
+}
+
 .contact__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
   align-items: start;
 }
+
 
 .contact__info {
   padding: 36px;

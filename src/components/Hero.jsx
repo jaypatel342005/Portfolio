@@ -1,6 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiArrowDown, FiDownload, FiMail } from 'react-icons/fi';
+import Spotlight from './ui/Spotlight';
+import TextGenerateEffect from './ui/TextGenerateEffect';
+import MovingBorderBtn from './ui/MovingBorderBtn';
 import './Hero.css';
 
 const roles = [
@@ -68,6 +71,9 @@ const Hero = () => {
 
   return (
     <section className="hero" id="hero">
+      {/* Aceternity Spotlight — follows cursor */}
+      <Spotlight fill="rgba(249,115,22,0.4)" />
+
       <div className="hero__content container">
         <motion.div
           className="hero__text"
@@ -104,14 +110,17 @@ const Hero = () => {
             <span className="hero__cursor">|</span>
           </motion.div>
 
+          {/* Aceternity Text Generate Effect on bio */}
           <motion.p
             className="hero__bio"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.0 }}
+            transition={{ duration: 0.4, delay: 1.0 }}
           >
-            Aspiring <span className="hero__bio-highlight">AI/ML Engineer</span> with hands-on experience in scalable ML, Deep Learning & Computer Vision systems.
-            Proficient in <span className="hero__bio-highlight">Python & PyTorch</span> with full-stack integration skills.
+            <TextGenerateEffect
+              words="Aspiring AI/ML Engineer with hands-on experience in scalable ML, Deep Learning & Computer Vision systems. Proficient in Python & PyTorch with full-stack integration skills."
+              delay={1.1}
+            />
           </motion.p>
 
           <motion.div
@@ -120,9 +129,16 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.2 }}
           >
-            <a href="#projects" className="btn btn-primary hero__btn-primary">
+            {/* Moving Border primary CTA */}
+            <MovingBorderBtn
+              href="#projects"
+              containerClassName="hero__moving-btn-wrapper"
+              className="hero__moving-btn"
+              duration={2500}
+            >
               View Projects <FiArrowDown />
-            </a>
+            </MovingBorderBtn>
+
             <a href="/jay-patel-resume.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-outline">
               <FiDownload /> Resume
             </a>

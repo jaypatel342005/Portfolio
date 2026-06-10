@@ -1,3 +1,8 @@
+/* ─── Lamp offset ─── */
+.projects__lamp {
+  margin-bottom: 48px;
+}
+
 .projects__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -71,7 +76,7 @@
 .projects__card-link:hover {
   color: var(--project-color, var(--accent-tertiary));
   border-color: var(--project-color, var(--accent-primary));
-  background: rgba(124, 58, 237, 0.1);
+  background: rgba(249, 115, 22, 0.08);
 }
 
 .projects__card-title {
