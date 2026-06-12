@@ -87,6 +87,8 @@
   min-width: 0;
   /* Good touch target */
   min-height: 64px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .contact__link-card:hover {

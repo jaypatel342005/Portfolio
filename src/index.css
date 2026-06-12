@@ -75,13 +75,13 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
+body, #root {
   overflow-x: hidden;
   width: 100%;
 }
 
 html {
-  scroll-behavior: smooth;
+  /* NOTE: Do NOT set overflow-x: hidden on html — it breaks iOS Safari scrolling */
   scroll-padding-top: 80px;
 }
 
@@ -268,6 +268,9 @@ a:hover {
   white-space: nowrap;
   /* Minimum 44px touch target */
   min-height: 44px;
+  /* Eliminate 300ms tap delay on mobile */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btn-primary {
@@ -481,6 +484,7 @@ a:hover {
   background: conic-gradient(from 90deg at 50% 50%, #f59e0b, #f97316, #ef4444, #f59e0b);
   filter: blur(16px);
   opacity: 0.75;
+  pointer-events: none;
 }
 
 .moving-border-btn {
@@ -500,6 +504,9 @@ a:hover {
   text-decoration: none;
   white-space: nowrap;
   min-height: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
 }
 
 .moving-border-btn:hover {
@@ -542,6 +549,7 @@ a:hover {
   height: 100%;
   width: 100%;
   z-index: 2;
+  pointer-events: auto;
 }
 
 @keyframes shimmer-rotate {

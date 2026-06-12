@@ -123,7 +123,7 @@ const About = () => {
                 >
                   {[
                     { icon: <FiMapPin size={16} />, content: 'Morbi, Gujarat, India' },
-                    { icon: <FiMail size={16} />, content: 'jaypatel97378@gmail.com' },
+                    { icon: <FiMail size={16} />, content: 'pateljay97378@gmail.com' },
                     {
                       icon: <FiGithub size={16} />,
                       content: (

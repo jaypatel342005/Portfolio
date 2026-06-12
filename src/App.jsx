@@ -15,7 +15,7 @@ function App() {
       <ScrollProgress />
       <ParticleBackground />
       <Navbar />
-      <main style={{ position: 'relative', zIndex: 1 }}>
+      <main style={{ position: 'relative' }}>
         <Hero />
         <About />
         <Skills />

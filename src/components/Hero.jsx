@@ -131,7 +131,13 @@ const Hero = () => {
           >
             {/* Moving Border primary CTA */}
             <MovingBorderBtn
-              href="#projects"
+              onClick={() => {
+                const el = document.getElementById('projects');
+                if (el) {
+                  const top = el.getBoundingClientRect().top + window.scrollY - 80;
+                  window.scrollTo({ top, behavior: 'smooth' });
+                }
+              }}
               containerClassName="hero__moving-btn-wrapper"
               className="hero__moving-btn"
               duration={2500}
@@ -147,7 +153,11 @@ const Hero = () => {
               className="btn btn-glass"
               onClick={(e) => {
                 e.preventDefault();
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                const el = document.getElementById('contact');
+                if (el) {
+                  const top = el.getBoundingClientRect().top + window.scrollY - 80;
+                  window.scrollTo({ top, behavior: 'smooth' });
+                }
               }}
             >
               <FiMail /> Hire Me

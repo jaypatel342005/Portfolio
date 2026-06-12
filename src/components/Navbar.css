@@ -6,6 +6,8 @@
   z-index: 1000;
   padding: 16px 0;
   transition: all var(--transition-base);
+  /* Isolate stacking context so children z-indexes work correctly */
+  isolation: isolate;
 }
 
 .navbar--scrolled {
@@ -115,6 +117,13 @@
   min-height: 44px;
   align-items: center;
   justify-content: center;
+  /* Prevent 300ms tap delay on mobile */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  /* Ensure button is always on top and clickable */
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .navbar__mobile-toggle:hover {

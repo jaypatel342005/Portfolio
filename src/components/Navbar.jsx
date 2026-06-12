@@ -50,8 +50,15 @@ const Navbar = () => {
   }, [handleScroll]);
 
   const scrollTo = useCallback((id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setMobileOpen(false);
+    // Small delay so the mobile menu closes before scrolling (avoids layout conflict)
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const navHeight = 80;
+      const top = el.getBoundingClientRect().top + window.scrollY - navHeight;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }, 50);
   }, []);
 
   return (

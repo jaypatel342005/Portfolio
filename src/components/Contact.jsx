@@ -7,7 +7,7 @@ import MovingBorderBtn from './ui/MovingBorderBtn';
 import './Contact.css';
 
 const contactLinks = [
-  { icon: <FiMail size={22} />, label: 'Email', value: 'jaypatel97378@gmail.com', href: 'https://mail.google.com/mail/?view=cm&to=jaypatel97378@gmail.com', color: '#f97316' },
+  { icon: <FiMail size={22} />, label: 'Email', value: 'pateljay97378@gmail.com', href: 'https://mail.google.com/mail/?view=cm&to=pateljay97378@gmail.com', color: '#f97316' },
   { icon: <FiPhone size={22} />, label: 'Phone', value: '+91 98796 34566', href: 'tel:+919879634566', color: '#f59e0b' },
   { icon: <FiGithub size={22} />, label: 'GitHub', value: 'jaypatel342005', href: 'https://github.com/jaypatel342005', color: '#f0f0f5' },
   { icon: <FiLinkedin size={22} />, label: 'LinkedIn', value: 'in/jaypatel345', href: 'https://linkedin.com/in/jaypatel345', color: '#0077b5' },
@@ -69,7 +69,7 @@ const Contact = () => {
             <div className="contact__cta">
               {/* Aceternity Moving Border on primary CTA */}
               <MovingBorderBtn
-                href="https://mail.google.com/mail/?view=cm&to=jaypatel97378@gmail.com&su=Hiring%20Inquiry%20-%20Portfolio"
+                href="https://mail.google.com/mail/?view=cm&to=pateljay97378@gmail.com&su=Hiring%20Inquiry%20-%20Portfolio"
                 target="_blank"
                 rel="noopener noreferrer"
                 containerClassName="contact__moving-btn-wrapper"
